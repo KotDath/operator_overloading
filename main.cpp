@@ -17,5 +17,6 @@ int main() {
     std::cout << vec * mat;
     RUN_ALL_TESTS();
     getchar();
+    getchar();
     return 0;
 }
