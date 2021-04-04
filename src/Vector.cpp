@@ -93,7 +93,7 @@ Vector operator*(double lambda, const Vector& vec) {
 
 double operator*(const Vector& first, const Vector& second) {
     if (first.size != second.size) {
-
+        throw IncompatibleDimException();
     } else {
         double result = 0;
         for(int i = 0; i < first.size; ++i) {
@@ -114,6 +114,8 @@ Vector& Vector::operator=(const Vector& other) {
         for (int i = 0; i < size; ++i) {
             coordinates[i] = other[i];
         }
+
+        return *this;
     }
 }
 

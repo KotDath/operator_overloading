@@ -8,7 +8,7 @@ int main() {
     std::cin >> vec;
     std::cout << vec * 5;
     CSRMatrix mat;
-    std::cout << "Input Vector and i multiply it x2" << std::endl;
+    std::cout << "Input Matrix and i multiply it x2" << std::endl;
     std::cin >> mat;
     std::cout << mat * 2;
     std::cout << "Matrix x Vector:" << std::endl;
