@@ -8,7 +8,9 @@ class CSRMatrix;
 class Vector {
 public:
     Vector(int size, double defaultValue);
-    Vector(int size);
+    
+    Vector(int size);             //!!! Запретить неявные преобразования
+    
     Vector();
     Vector(const Vector& other);
     ~Vector();
@@ -35,7 +37,7 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const Vector& vec);
     friend std::istream& operator>>(std::istream& out, Vector& vec);
 
-    operator double*();
+    operator double*();          //!!! Запретить неявные преобразования
 private:
     int size;
     double* coordinates;
