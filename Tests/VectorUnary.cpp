@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../include/Vector.h"
+#include "Vector.h"
 
 TEST(VectorUnary, UnaryMinus) {
     Vector a(3);
@@ -14,7 +14,8 @@ TEST(VectorUnary, CopyConstrucor) {
     Vector a(5);
     a[0] = 1.12, a[1] = -0.1, a[2] = 13.7, a[3] = 3.33, a[4] = -0;
     Vector b(a);
-    Vector c = a;
+    Vector c(3);
+    c = a;
     ASSERT_EQ(b, c);
 }
 
@@ -36,11 +37,19 @@ TEST(VectorUnary, DimTest) {
 TEST(PointerTest, Simple) {
     Vector a(3);
     a[0] = 1, a[1] = 2, a[2] = 3;
-    double* pointer = a;
+    double* pointer = static_cast<double*>(a);
     ASSERT_EQ(*(pointer + 1), 2);
 }
 
 TEST(ConstTest, Simple) {
     const Vector a(3, 5);
     ASSERT_EQ(a[1], 5);
+}
+
+TEST(VectorUnary, ZeroSize) {
+    Vector a(0);
+    Vector b(3);
+    b[0] = 1, b[1] = 2, b[2] = 3;
+    a = b;
+    ASSERT_EQ(a, b);
 }

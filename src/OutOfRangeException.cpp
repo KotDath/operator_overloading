@@ -1,4 +1,4 @@
-#include "../include/OutOfRangeException.h"
+#include "OutOfRangeException.h"
 
 
 const char* OutOfRangeException::what() {

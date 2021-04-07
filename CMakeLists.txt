@@ -13,6 +13,8 @@ set(OUTOFRANGEEXCEPTION_FILES src/OutOfRangeException.cpp include/OutOfRangeExce
 set(TESTS Tests/VectorArithmetic.cpp Tests/Exception.cpp Tests/VectorUnary.cpp Tests/Complex.cpp Tests/Matrix.cpp)
 set(INCOMPATIBLEDIMEXCEPTION_FILES include/IncompatibleDimException.h src/IncompatibleDimException.cpp)
 
+include_directories(include)
+
 add_executable(TEST main.cpp ${VECTOR_FILES} ${CSRMATRIX_FILES} ${OUTOFRANGEEXCEPTION_FILES}
         ${TESTS} ${INCOMPATIBLEDIMEXCEPTION_FILES})
 

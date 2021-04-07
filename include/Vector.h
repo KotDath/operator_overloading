@@ -9,7 +9,7 @@ class Vector {
 public:
     Vector(int size, double defaultValue);
     
-    Vector(int size);             //!!! Запретить неявные преобразования
+    explicit Vector(int size);
     
     Vector();
     Vector(const Vector& other);
@@ -37,7 +37,7 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const Vector& vec);
     friend std::istream& operator>>(std::istream& out, Vector& vec);
 
-    operator double*();          //!!! Запретить неявные преобразования
+    explicit operator double*();
 private:
     int size;
     double* coordinates;

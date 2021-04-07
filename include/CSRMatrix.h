@@ -17,14 +17,22 @@ public:
     int GetCountOfNoneZeroElem() const;
     std::pair<int, int> GetShape() const;
 
-    //!!! operator= ?
-
+    CSRMatrix& operator=(const CSRMatrix& mat);
     friend std::ostream& operator<<(std::ostream& out, const CSRMatrix& mat);
     friend std::istream& operator>>(std::istream& in, CSRMatrix& mat);
-    friend void PrintMatrix(std::ostream& out, const CSRMatrix& mat);
 
     ~CSRMatrix();
 private:
+    template<typename T>
+    static void PrintArray(std::ostream& out, T* arr, int size);
+
+    template<typename T>
+    static T* ReadArray(std::istream& in, T* arr, int size);
+
+    static void PrintMatrix(std::ostream& out, const CSRMatrix& mat);
+
+    template<typename T>
+    static void ResizeIfDifferentSize(T*& arr, T* newArr, int& size, int newSize);
     double* values;
     int valuesSize;
     int* indices;
@@ -39,10 +47,3 @@ Vector operator*(const Vector& vec, const CSRMatrix& mat);
 std::ostream& operator<<(std::ostream& out, const CSRMatrix& mat);
 std::istream& operator>>(std::istream& in, CSRMatrix& mat);
 
-template<typename T>
-void PrintArray(std::ostream& out, T* arr, int size);
-
-template<typename T>
-T* ReadArray(std::istream& in, T* arr, int size);
-
-void PrintMatrix(std::ostream& out, const CSRMatrix& mat);

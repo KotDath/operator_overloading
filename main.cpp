@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "include/CSRMatrix.h"
+#include "CSRMatrix.h"
 
 int main() {
     testing::InitGoogleTest();

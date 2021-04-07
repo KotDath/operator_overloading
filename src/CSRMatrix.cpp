@@ -1,8 +1,4 @@
-//
-// Created by KotDath on 16.03.2021.
-//
-
-#include "../include/CSRMatrix.h"
+#include "CSRMatrix.h"
 
 CSRMatrix::CSRMatrix(double* values_, int valuesSize, int* indices_, int indicesSize, int* rowPointer_, int rowPointerSize) :
 valuesSize(valuesSize), indicesSize(indicesSize), rowPointerSize(rowPointerSize)  {
@@ -88,26 +84,26 @@ std::pair<int, int> CSRMatrix::GetShape() const {
 std::ostream& operator<<(std::ostream& out, const CSRMatrix& mat) {
     out << "Source arrays:" << std::endl;
     int size = mat.GetShape().first;
-    PrintArray(out, mat.values, mat.valuesSize);
-    PrintArray(out, mat.indices, mat.indicesSize);
-    PrintArray(out, mat.rowPointer, mat.rowPointerSize);
+    CSRMatrix::PrintArray(out, mat.values, mat.valuesSize);
+    CSRMatrix::PrintArray(out, mat.indices, mat.indicesSize);
+    CSRMatrix::PrintArray(out, mat.rowPointer, mat.rowPointerSize);
     out << "Matrix " << size << 'x' << size << ':' << std::endl;
-    PrintMatrix(out, mat);
+    CSRMatrix::PrintMatrix(out, mat);
     return out;
 }
 
 std::istream& operator>>(std::istream& in, CSRMatrix& mat) {
 
     in >> mat.valuesSize >> mat.indicesSize >> mat.rowPointerSize;
-    mat.values = ReadArray(in, mat.values, mat.valuesSize);
-    mat.indices = ReadArray(in, mat.indices, mat.indicesSize);
-    mat.rowPointer = ReadArray(in, mat.rowPointer, mat.rowPointerSize);
+    mat.values = CSRMatrix::ReadArray(in, mat.values, mat.valuesSize);
+    mat.indices = CSRMatrix::ReadArray(in, mat.indices, mat.indicesSize);
+    mat.rowPointer = CSRMatrix::ReadArray(in, mat.rowPointer, mat.rowPointerSize);
 
     return in;
 }
 
 template<typename T>
-void PrintArray(std::ostream& out, T* arr, int size) {
+void CSRMatrix::PrintArray(std::ostream& out, T* arr, int size) {
     out << '[';
     for (int i = 0; i < size; ++i) {
         out << arr[i];
@@ -119,7 +115,7 @@ void PrintArray(std::ostream& out, T* arr, int size) {
 }
 
 template<typename T>
-T* ReadArray(std::istream& in, T* arr, int size) {
+T* CSRMatrix::ReadArray(std::istream& in, T* arr, int size) {
     delete[] arr;
     arr = new T[size];
     for (int i = 0; i < size; ++i) {
@@ -129,7 +125,7 @@ T* ReadArray(std::istream& in, T* arr, int size) {
     return arr;
 }
 
-void PrintMatrix(std::ostream& out, const CSRMatrix& mat) {
+void CSRMatrix::PrintMatrix(std::ostream& out, const CSRMatrix& mat) {
     int size = mat.GetShape().first;
     for (int row = 0; row < size; ++row) {
         int start = mat.rowPointer[row];
@@ -142,7 +138,6 @@ void PrintMatrix(std::ostream& out, const CSRMatrix& mat) {
                 out << 0 << ' ';
             }
             out << mat.values[start] << ' ';
-            int column = 0;
             for (int i = mat.rowPointer[row]; i < mat.rowPointer[row + 1] - 1; ++i) {
                 for (int j = mat.indices[i]; j < mat.indices[i + 1] - 1; ++j) {
                     out << 0 << ' ';
@@ -166,4 +161,26 @@ CSRMatrix::CSRMatrix(const CSRMatrix& mat) : valuesSize(mat.valuesSize), indices
     memcpy(values, mat.values, sizeof(double) * valuesSize);
     memcpy(indices, mat.indices, sizeof(int) * indicesSize);
     memcpy(rowPointer, mat.rowPointer, sizeof(int) * rowPointerSize);
+}
+
+CSRMatrix& CSRMatrix::operator=(const CSRMatrix& mat) {
+    if (this != &mat) {
+        ResizeIfDifferentSize(values, mat.values, valuesSize, mat.valuesSize);
+        ResizeIfDifferentSize(indices, mat.indices, indicesSize, mat.indicesSize);
+        ResizeIfDifferentSize(rowPointer, mat.rowPointer, rowPointerSize, mat.rowPointerSize);
+        memcpy(values, mat.values, sizeof(double) * valuesSize);
+        memcpy(indices, mat.indices, sizeof(int) * indicesSize);
+        memcpy(rowPointer, mat.rowPointer, sizeof(int) * rowPointerSize);
+    }
+
+    return *this;
+}
+
+template<typename T>
+void CSRMatrix::ResizeIfDifferentSize(T*& arr, T* newArr, int& size, int newSize) {
+    if (size != newSize) {
+        delete[] arr;
+        arr = new T[newSize];
+        size = newSize;
+    }
 }

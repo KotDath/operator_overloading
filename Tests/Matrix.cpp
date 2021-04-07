@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "../include/Vector.h"
-#include "../include/OutOfRangeException.h"
+#include "Vector.h"
+#include "OutOfRangeException.h"
 
 TEST(MatrixTest, GetNonZero) {
     double a[] = {1, 2, 3, 4, 1, 11};

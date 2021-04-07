@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "../include/Vector.h"
-#include "../include/OutOfRangeException.h"
+#include "Vector.h"
+#include "OutOfRangeException.h"
 
 TEST(ComplexTest, First) {
     Vector first(3), second(3), third(3), result(3);

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../include/Vector.h"
+#include "Vector.h"
 
 TEST(BinaryPlusTest, SimpleAB) {
     Vector a(3);

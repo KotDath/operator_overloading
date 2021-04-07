@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
-#include "../include/Vector.h"
-#include "../include/OutOfRangeException.h"
-#include "../include/IncompatibleDimException.h"
+#include "Vector.h"
+#include "OutOfRangeException.h"
 
 
 TEST(OutOfRangeExceptionTest, SimpleVector) {

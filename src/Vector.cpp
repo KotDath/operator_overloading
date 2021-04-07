@@ -1,7 +1,6 @@
-#include "../include/Vector.h"
+#include "Vector.h"
 
-Vector::Vector(int size, double defaultValue) : size(size) {
-    coordinates = new double[size];
+Vector::Vector(int size, double defaultValue) : size(size), coordinates(new double[size]) {
     for (int i = 0; i < size; ++i) {
         coordinates[i] = defaultValue;
     }
@@ -11,26 +10,20 @@ Vector::~Vector() {
     delete[] coordinates;
 }
 
-Vector::Vector(const Vector& other) {
-    size = other.size;
-    coordinates = new double[size];
+Vector::Vector(const Vector& other) : size(other.size), coordinates(new double[size]) {
     for (int i = 0; i < size; ++i) {
         coordinates[i] = other[i];
     }
 
 }
 
-Vector::Vector(int size) : size(size) {
-    coordinates = new double[size];
+Vector::Vector(int size) : size(size), coordinates(new double[size]) {  
     for (int i = 0; i < size; ++i) {
         coordinates[i] = 0;
     }
 }
 
-Vector::Vector() {
-    size = 0;
-    coordinates = new double[0]; //!!! По умолчанию должен быть nullptr. И лучше через список инициализации (:)
-}
+Vector::Vector() : size(0), coordinates(nullptr) {}
 
 int Vector::GetDimentionCount() const {
     return size;
@@ -105,23 +98,16 @@ double operator*(const Vector& first, const Vector& second) {
 }
 
 Vector& Vector::operator=(const Vector& other) {
-    if (this == &other) {
-        return *this;
-    } else {
-        size = other.size;
-        
-        //!!! Выделять память стоит только, если размеры не совпадают
-        
-        delete[] coordinates;
-        coordinates = new double[size];
-        
-        
-        for (int i = 0; i < size; ++i) {
-            coordinates[i] = other[i];
+    if (this != &other) {
+        if (size != other.size) {
+            size = other.size;
+            delete[] coordinates;
+            coordinates = new double[size];
         }
-
-        return *this;
+        memcpy(coordinates, other.coordinates, sizeof(double) * size);
     }
+
+    return *this;
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector& vec) {
@@ -177,7 +163,7 @@ bool operator==(const Vector& first, const Vector& second) {
     }
 
     for (int i = 0; i < first.size; ++i) {
-        if (first[i] != second[i]) {         //!!! double на != сравнивать сомнительно -> через std::fabs() < epsilon
+        if (std::fabs(first[i] - second[i]) > DBL_EPSILON) {
             return false;
         }
     }
