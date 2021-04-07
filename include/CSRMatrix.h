@@ -17,6 +17,8 @@ public:
     int GetCountOfNoneZeroElem() const;
     std::pair<int, int> GetShape() const;
 
+    //!!! operator= ?
+
     friend std::ostream& operator<<(std::ostream& out, const CSRMatrix& mat);
     friend std::istream& operator>>(std::istream& in, CSRMatrix& mat);
     friend void PrintMatrix(std::ostream& out, const CSRMatrix& mat);
