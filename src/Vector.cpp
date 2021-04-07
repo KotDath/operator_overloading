@@ -29,7 +29,7 @@ Vector::Vector(int size) : size(size) {
 
 Vector::Vector() {
     size = 0;
-    coordinates = new double[0];
+    coordinates = new double[0]; //!!! По умолчанию должен быть nullptr. И лучше через список инициализации (:)
 }
 
 int Vector::GetDimentionCount() const {
@@ -109,8 +109,13 @@ Vector& Vector::operator=(const Vector& other) {
         return *this;
     } else {
         size = other.size;
+        
+        //!!! Выделять память стоит только, если размеры не совпадают
+        
         delete[] coordinates;
         coordinates = new double[size];
+        
+        
         for (int i = 0; i < size; ++i) {
             coordinates[i] = other[i];
         }
@@ -172,7 +177,7 @@ bool operator==(const Vector& first, const Vector& second) {
     }
 
     for (int i = 0; i < first.size; ++i) {
-        if (first[i] != second[i]) {
+        if (first[i] != second[i]) {         //!!! double на != сравнивать сомнительно -> через std::fabs() < epsilon
             return false;
         }
     }
